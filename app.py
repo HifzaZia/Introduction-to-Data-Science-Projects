@@ -232,35 +232,56 @@ elif page == "🔮 Live Prediction":
             st.warning("Please enter some text!")
 
 # 5. REQUIREMENTS CHECK
-else:
+elif page == "✅ Requirements Check":
     st.header("✅ Project Requirements Check")
     
+    st.markdown("### All IDS F24 Project Requirements")
+    
     requirements = [
-        ("Unique Dataset", "✅", "Custom sentiment dataset created for this project"),
-        ("10+ EDA Analyses", "✅", "10 analyses completed including distributions, statistics, word analysis"),
-        ("Data Preprocessing", "✅", "Text vectorization for ML"),
-        ("ML Model", "✅", "Naive Bayes classifier trained"),
+        ("Unique Dataset", "✅", "Custom sentiment dataset with 1.6 million rows"),
+        ("10+ EDA Analyses", "✅", "10 complete analyses in EDA Analysis page"),
+        ("Data Preprocessing", "✅", "Text cleaning, vectorization, sentiment mapping"),
+        ("ML Model Implementation", "✅", "Naive Bayes classifier with 72% accuracy"),
         ("Runtime Predictions", "✅", "Live prediction interface working"),
-        ("Streamlit App", "✅", "This interactive application"),
+        ("Streamlit Application", "✅", "Interactive 5-page web app"),
         ("All Course Skills", "✅", "Preprocessing, EDA, modeling, deployment")
     ]
     
-    for req, status, details in requirements:
-        st.markdown(f"**{req}** {status} - *{details}*")
+    # Display requirements as a nice table
+    for i, (req, status, desc) in enumerate(requirements, 1):
+        col1, col2, col3 = st.columns([1, 1, 6])
+        with col1:
+            st.markdown(f"**{i}.**")
+        with col2:
+            st.markdown(f"**{status}**")
+        with col3:
+            st.markdown(f"**{req}** - {desc}")
+    
+    st.markdown("---")
+    
+    st.success("### ✅ ALL REQUIREMENTS COMPLETED!")
     
     st.info("""
-    ### 📝 To Submit This Project:
-    1. **Save all 3 files** in one folder
-    2. **Run locally** to test: `streamlit run app.py`
-    3. **Deploy to Streamlit Cloud** (free):
-       - Go to [share.streamlit.io](https://share.streamlit.io)
-       - Sign up with GitHub
-       - Upload your 3 files
-       - Get your public URL
-    4. **Submit the URL** to your instructor
+    ### 📝 Submission Instructions:
+    
+    1. **GitHub Repository:** https://github.com/HifzaZia/IDS-Sentiment-Analysis-Project
+    2. **Live Application:** https://ids-sentiment-analysis-project-5zdgn4rvf72lwakbyic2fd.streamlit.app/
+    
+    ### 📊 How to Verify:
+    1. Open the Live App link
+    2. Navigate through all 5 pages using sidebar
+    3. Check EDA Analysis page - 10+ analyses
+    4. Test Live Prediction page - enter text for predictions
+    5. Verify ML Model shows 72% accuracy
+    6. All requirements marked ✅ on this page
     """)
-
-# Footer
-st.sidebar.markdown("---")
-st.sidebar.info("**Student:** Hifza Zia")
-st.sidebar.info("**Deadline:** Dec 21, 2025")
+    
+    # Project info
+    st.markdown("---")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Student", "Hifza Zia")
+    with col2:
+        st.metric("Course", "IDS F24")
+    with col3:
+        st.metric("Instructor", "Dr. M Nadeem Majeed")
