@@ -24,3 +24,6 @@ Dr. M Nadeem Majeed
 
 ## 👩‍🎓 Student
 Hifza Zia
+
+## 🌐 Live Demo
+**Live App:** https://ids-sentiment-analysis-project-5zdgn4rvf72lwakbyic2fd.streamlit.app/
