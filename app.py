@@ -183,25 +183,12 @@ elif page == "🤖 ML Model":
     
     st.subheader("Model Performance")
     st.write(f"This model achieves {accuracy*100:.1f}% accuracy on the test set.")
-    st.write("**Prediction Examples from Test Set:**")
-    
-    # Simple demonstration - show first 3 predictions from test set
-    for i in range(min(3, len(y_test))):  # Show at most 3 examples
-        pred = y_pred[i] if i < len(y_pred) else "N/A"
-        actual = y_test.iloc[i] if i < len(y_test) else "N/A"
-        
-        # Get the corresponding text (need to map back to original)
-        test_indices = list(y_test.index)
-        if i < len(test_indices):
-            text_idx = test_indices[i]
-            text_sample = df['text'].iloc[text_idx] if text_idx < len(df) else f"Test sample {i+1}"
-        else:
-            text_sample = f"Test sample {i+1}"
-        
-        st.write(f"**Sample {i+1}:** '{text_sample[:50]}...'")
-        st.write(f"  - **Predicted:** {'✅ Positive' if pred == 1 else '❌ Negative'}")
-        st.write(f"  - **Actual:** {'✅ Positive' if actual == 1 else '❌ Negative'}")
-        st.write("---")
+    st.write("**Model Summary:**")
+    st.write("- Naive Bayes classifier trained on 10,000 text samples")
+    st.write(f"- Test set accuracy: {accuracy*100:.1f}%")
+    st.write(f"- Training samples: {len(y_train)}")
+    st.write(f"- Test samples: {len(y_test)}")
+    st.write("- Go to **🔮 Live Prediction** page to test the model yourself!")
 
 # 4. LIVE PREDICTION
 elif page == "🔮 Live Prediction":
