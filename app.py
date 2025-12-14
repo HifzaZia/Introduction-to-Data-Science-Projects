@@ -179,19 +179,33 @@ elif page == "🤖 ML Model":
     with col2:
         st.metric("Accuracy", f"{accuracy*100:.1f}%")
     with col3:
-        st.metric("Training Size", X_train.shape[0])
+        st.metric("Training Size", len(y_train))  # FIXED HERE
     
     st.subheader("Model Performance")
-    st.write("This simple model works well for this small dataset.")
+    st.write(f"This model achieves {accuracy*100:.1f}% accuracy on the test set.")
     st.write("**Prediction Examples:**")
     
-    test_samples = X_test[:3].toarray() if hasattr(X_test, 'toarray') else X_test[:3]
-for i, sample in enumerate(test_samples):
-    # Reshape to 2D array for prediction
-    sample_2d = sample.reshape(1, -1) if len(sample.shape) == 1 else sample
-    pred = model.predict(sample_2d)
-        actual = y_test.iloc[i] if i < len(y_test) else "N/A"
-        st.write(f"Sample {i+1}: Predicted={pred[0]}, Actual={actual}")
+    # Get a few samples for demonstration
+    sample_indices = X_test.indices[:3] if hasattr(X_test, 'indices') else range(3)
+    
+    for i, idx in enumerate(sample_indices[:3]):  # Show first 3
+        if i < len(y_test):
+            # Get actual text
+            text_sample = df['text'].iloc[idx] if idx < len(df) else f"Sample {i+1}"
+            
+            # Predict
+            if hasattr(X_test, 'getrow'):
+                sample_row = X_test.getrow(idx)
+                pred = model.predict(sample_row)[0]
+            else:
+                # Fallback
+                pred = y_pred[i] if i < len(y_pred) else "N/A"
+            
+            actual = y_test.iloc[idx] if idx < len(y_test) else "N/A"
+            st.write(f"**Sample {i+1}:** '{text_sample[:50]}...'")
+            st.write(f"  - Predicted: {'Positive' if pred == 1 else 'Negative'}")
+            st.write(f"  - Actual: {'Positive' if actual == 1 else 'Negative'}")
+            st.write("---")
 
 # 4. LIVE PREDICTION
 elif page == "🔮 Live Prediction":
