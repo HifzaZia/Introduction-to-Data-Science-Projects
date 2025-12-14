@@ -179,15 +179,17 @@ elif page == "🤖 ML Model":
     with col2:
         st.metric("Accuracy", f"{accuracy*100:.1f}%")
     with col3:
-        st.metric("Training Size", len(X_train))
+        st.metric("Training Size", X_train.shape[0])
     
     st.subheader("Model Performance")
     st.write("This simple model works well for this small dataset.")
     st.write("**Prediction Examples:**")
     
-    test_samples = X_test[:3]
-    for i, sample in enumerate(test_samples):
-        pred = model.predict(sample)
+    test_samples = X_test[:3].toarray() if hasattr(X_test, 'toarray') else X_test[:3]
+for i, sample in enumerate(test_samples):
+    # Reshape to 2D array for prediction
+    sample_2d = sample.reshape(1, -1) if len(sample.shape) == 1 else sample
+    pred = model.predict(sample_2d)
         actual = y_test.iloc[i] if i < len(y_test) else "N/A"
         st.write(f"Sample {i+1}: Predicted={pred[0]}, Actual={actual}")
 
