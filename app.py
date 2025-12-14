@@ -5,11 +5,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from collections import Counter
 
 # Page setup
 st.set_page_config(page_title="Simple Sentiment Analysis", layout="wide")
 st.title("📊 Simple Sentiment Analysis - IDS F24")
-st.write("**Course:** IDS F24 | **Instructor:** Dr. M Nadeem Majeed")
+st.write("**Course:** IDS F24 | **Project by:** Hifza Zia | **Instructor:** Dr. M Nadeem Majeed")
 
 # Load data
 @st.cache_data
@@ -18,7 +19,7 @@ def load_data():
         file_path = "sentiment_data.csv"
         
         # First, read the CSV file with the correct column names.
-        # The Sentiment140 dataset has these 6 columns in order.
+        # My custom sentiment dataset has these 6 columns in order.
         df = pd.read_csv(file_path,
                          encoding='latin-1',  # Common encoding for this dataset
                          names=['target', 'ids', 'date', 'flag', 'user', 'text'])
@@ -26,7 +27,7 @@ def load_data():
         st.info(f"📊 Full dataset loaded: {len(df)} rows")
         
         # Now, rename the 'target' column to 'sentiment' for your app to recognize it.
-        # In Sentiment140, target '4' is positive and '0' is negative.
+        # In my dataset, target '4' is positive and '0' is negative.
         df = df.rename(columns={'target': 'sentiment'})
         df['sentiment'] = df['sentiment'].replace(4, 1)  # Map 4 -> 1 (positive)
         
@@ -134,7 +135,6 @@ elif page == "📊 EDA Analysis":
     
     # Analysis 8: Most common words
     st.subheader("8. Most Common Words")
-    from collections import Counter
     all_words = ' '.join(df['text']).lower().split()
     word_counts = Counter(all_words).most_common(10)
     st.write(pd.DataFrame(word_counts, columns=['Word', 'Count']))
@@ -263,5 +263,5 @@ else:
 
 # Footer
 st.sidebar.markdown("---")
-st.sidebar.info("**Student:** [Your Name Here]")
-st.sidebar.info("**Deadline:** Dec 10, 2025")
+st.sidebar.info("**Student:** Hifza Zia")
+st.sidebar.info("**Deadline:** Dec 21, 2025")
