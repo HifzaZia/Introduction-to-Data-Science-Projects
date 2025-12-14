@@ -179,33 +179,29 @@ elif page == "🤖 ML Model":
     with col2:
         st.metric("Accuracy", f"{accuracy*100:.1f}%")
     with col3:
-        st.metric("Training Size", len(y_train))  # FIXED HERE
+        st.metric("Training Size", len(y_train))
     
     st.subheader("Model Performance")
     st.write(f"This model achieves {accuracy*100:.1f}% accuracy on the test set.")
-    st.write("**Prediction Examples:**")
+    st.write("**Prediction Examples from Test Set:**")
     
-    # Get a few samples for demonstration
-    sample_indices = X_test.indices[:3] if hasattr(X_test, 'indices') else range(3)
-    
-    for i, idx in enumerate(sample_indices[:3]):  # Show first 3
-        if i < len(y_test):
-            # Get actual text
-            text_sample = df['text'].iloc[idx] if idx < len(df) else f"Sample {i+1}"
-            
-            # Predict
-            if hasattr(X_test, 'getrow'):
-                sample_row = X_test.getrow(idx)
-                pred = model.predict(sample_row)[0]
-            else:
-                # Fallback
-                pred = y_pred[i] if i < len(y_pred) else "N/A"
-            
-            actual = y_test.iloc[idx] if idx < len(y_test) else "N/A"
-            st.write(f"**Sample {i+1}:** '{text_sample[:50]}...'")
-            st.write(f"  - Predicted: {'Positive' if pred == 1 else 'Negative'}")
-            st.write(f"  - Actual: {'Positive' if actual == 1 else 'Negative'}")
-            st.write("---")
+    # Simple demonstration - show first 3 predictions from test set
+    for i in range(min(3, len(y_test))):  # Show at most 3 examples
+        pred = y_pred[i] if i < len(y_pred) else "N/A"
+        actual = y_test.iloc[i] if i < len(y_test) else "N/A"
+        
+        # Get the corresponding text (need to map back to original)
+        test_indices = list(y_test.index)
+        if i < len(test_indices):
+            text_idx = test_indices[i]
+            text_sample = df['text'].iloc[text_idx] if text_idx < len(df) else f"Test sample {i+1}"
+        else:
+            text_sample = f"Test sample {i+1}"
+        
+        st.write(f"**Sample {i+1}:** '{text_sample[:50]}...'")
+        st.write(f"  - **Predicted:** {'✅ Positive' if pred == 1 else '❌ Negative'}")
+        st.write(f"  - **Actual:** {'✅ Positive' if actual == 1 else '❌ Negative'}")
+        st.write("---")
 
 # 4. LIVE PREDICTION
 elif page == "🔮 Live Prediction":
